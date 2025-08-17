@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class ProductController extends Controller
+{
+    public function Index() {
+        $title = '상품목록';
+        $products = Product::searchKeyword();
+        return view('product.list', compact('title', 'products'));
+    }
+    public function Input() {
+        $title = '상품추가';
+        return view('product.input', compact('title'));
+    }
+
+    public function Destroy($id) {
+        $product = Product::findOrFail($id);
+
+        // 이미지 파일이 존재하면 삭제
+        if(!empty($product->image)){
+            // uplads/.. 형태 그대로 public 디스크에서 삭제
+            Storage::disk('public')->delete($product->image);    
+        }
+        // DB row 삭제
+        $product->delete();
+
+        return redirect()->route('product')->with('success', '상품이 삭제되었습니다.');
+    }
+
+    public function Store(Request $request) {
+        // if (empty($request->input('name'))) {
+        //     return redirect()->back()->withInput()->with('error', '상품명은 필수입력 값입니다.');
+        // }
+
+        $request->validate([
+            'name' => 'required|unique:products,name',
+            'sku' => 'required|string|unique:products,sku',
+            'quantity' => 'required|numeric',
+            'price' => 'required|numeric',
+        ], [
+            'name.required' => '상품명은 필수입력항목입니다.',
+            'name.unique' => '이미 등록된 상품명입니다.',
+            'sku.required' => 'SKU는 필수입력항목입니다.',
+            'sku.string' => 'SKU는 문자열이어야 합니다.',
+            'sku.unique' => '이미 등록된 SKU입니다.',
+            'quantity.required' => '수량은 필수입력항목입니다.',
+            'quantity.numeric' => '수량은 숫자여야 합니다.',
+            'price.required' => '가격은 필수입력항목입니다.',
+            'price.numeric' => '가격은 숫자여야 합니다.',
+        ]);
+
+        $arr = [
+            'name' => $request->input('name'),
+            'sku' => $request->input('sku'),
+            'quantity' => $request->input('quantity'),
+            'price' => $request->input('price'),
+        ];
+
+        // 상품 이미지를 선택한 경우 (업로드한 경우)
+        if(!empty($request->file('image'))) {
+            $request->validate(['image' => 'required|file|mimes:jpg,jpeg,gif,png|max:4096']); // 4MB 이하 파일만 허용.
+            $path = $request->file('image')->store('uploads', 'public');
+            $arr['image'] = $path;
+        }
+
+        // 대량할당
+        Product::create($arr);
+        return redirect()->route('dashboard')->with('success', '등록되었습니다.');
+    }
+}
