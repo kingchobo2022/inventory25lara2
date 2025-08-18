@@ -23,6 +23,40 @@ class ProductController extends Controller
         return view('product.edit', compact('product','title'));
     }
 
+    public function Update(Request $request, Product $product)
+    {
+        // 1. 입력값 검증
+        $request->validate([
+            'name' => 'required|string',
+            'sku' => 'required|string|unique:products,sku,' . $product->id, // input과 달리 수정에서는 자기 자신 제외가 추가된다는 게 중요하죠!!
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+        ]);
+
+        // 2. 데이터 업데이트
+        $product->name = $request->input('name');
+        $product->sku = $request->input('sku');
+        $product->price = $request->input('price');
+
+        // 3. 이미지 처리
+        if ($request->hasFile('image')) {
+            if ($product->image && Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+                // Storage 파사드를 이용해서 삭제.
+                // 향후, 저장 장치가 변하더라도 코드 수정없이 유연하게 대응할 수가 있다.
+            }
+            $path = $request->file('image')->store('uploads', 'public');
+            // $path = Storage::disk('public')->putFile('uploads', $request->file('image'));
+            // 주석과 같이 동작한다고 보면 됩니다.
+            $product->image = $path;
+        }
+        // 4. 저장
+        $product->save();
+
+        // 5. 결과 응답
+        return redirect()->route('product')->with('success', '상품이 수정됩니다.');
+    }
+
     public function Destroy($id) {
         $product = Product::findOrFail($id);
 
