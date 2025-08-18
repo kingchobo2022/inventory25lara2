@@ -18,6 +18,11 @@ class ProductController extends Controller
         return view('product.input', compact('title'));
     }
 
+    public function Edit(Product $product) {
+        $title = '상품수정';
+        return view('product.edit', compact('product','title'));
+    }
+
     public function Destroy($id) {
         $product = Product::findOrFail($id);
 

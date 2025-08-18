@@ -55,7 +55,7 @@
 					<td>{{ number_format($product->price) }}원</td>
 					<td>
 						<div class="btn-group btn-group-sm" role="group">
-							<a href="" class="btn btn-outline-primary">수정</a>
+							<a href="{{ route('product.edit', $product) }}" class="btn btn-outline-primary">수정</a>
 							<a href="#" class="btn btn-outline-danger btn_del" data-id="{{ $product->id }}">삭제</a>
 							<a href="" class="btn btn-outline-success">입고</a>
 							<a href="" class="btn btn-outline-warning">출고</a>

@@ -15,6 +15,9 @@ Route::middleware('auth')->group(function() {
     Route::post('/product/input', [ProductController::class, 'Store'])->name('product.store');
     Route::get('/product', [ProductController::class, 'Index'])->name('product');
     Route::delete('/product/{id}', [ProductController::class, 'Destroy'])->name('product.delete');
+    // Route Model Binding 
+    Route::get('/product/{product}/edit', [ProductController::class, 'Edit'])->name('product.edit');
+    Route::put('/product/{product}', [ProductController::class, 'Update'])->name('product.update');
 });
 
 
