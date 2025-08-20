@@ -15,5 +15,10 @@ class Product extends Model
         $return = self::select('id', 'name', 'sku', 'price', 'quantity', 'created_at');
         return $return->paginate(1);
     }
+
+    public function stockLogs()
+    {
+        return $this->hasMany(StockLog::class);
+    }
     
 }

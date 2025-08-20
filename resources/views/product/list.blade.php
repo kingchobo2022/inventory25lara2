@@ -57,8 +57,8 @@
 						<div class="btn-group btn-group-sm" role="group">
 							<a href="{{ route('product.edit', $product) }}" class="btn btn-outline-primary">수정</a>
 							<a href="#" class="btn btn-outline-danger btn_del" data-id="{{ $product->id }}">삭제</a>
-							<a href="" class="btn btn-outline-success">입고</a>
-							<a href="" class="btn btn-outline-warning">출고</a>
+							<a href="{{ route('stock.input', ['id' => $product->id, 'action' => 'in']) }}" class="btn btn-outline-success">입고</a>
+							<a href="{{ route('stock.input', ['id' => $product->id, 'action' => 'out']) }}" class="btn btn-outline-warning">출고</a>
 						</div>
 					</td>
 				</tr>
