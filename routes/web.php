@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function() {
     Route::put('/product/{product}', [ProductController::class, 'Update'])->name('product.update');
 
     Route::get('/stock/input/{id}', [StockLogController::class, 'Input'])->name('stock.input');
+    Route::post('/stock/input/{id}', [StockLogController::class, 'Store'])->name('stock.store');
 });
 
 
