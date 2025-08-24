@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\StockLog;
+use App\Services\StockService;
 use Illuminate\Http\Request;
 
 class StockLogController extends Controller
@@ -25,7 +26,7 @@ class StockLogController extends Controller
         return view('stock.input', compact('product', 'title', 'action'));
     }
 
-    public function Store(Request $request, $id)
+    public function Store(Request $request, $id, StockService $stock)
     {
         $action = $request->query('action', 'in');
         if (!in_array($action, ['in', 'out'])) {
@@ -35,14 +36,15 @@ class StockLogController extends Controller
         $product = Product::findOrfail($id);
 
         $validated = $request->validate([
-            'amount' => ['required', 'integer', 'min:1']
+            'amount' => ['required', 'integer']
         ]);
 
-        StockLog::create([
-            'product_id' => $product->id,
-            'change_type' => $action,
-            'change_amount' => $validated['amount']
-        ]);
+        // StockLog::create([
+        //     'product_id' => $product->id,
+        //     'change_type' => $action,
+        //     'change_amount' => $validated['amount']
+        // ]);
+        $stock->adjust($product, $action, (int) $validated['amount']);
 
         return redirect()->route('product')->with('success', $action == 'in' ? '입고 처리 완료' : '출고 처리 완료');
     } 
