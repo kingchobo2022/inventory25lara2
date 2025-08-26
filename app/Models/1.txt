@@ -1,0 +1,27 @@
+route add -net 100.24.0.0/13 reject
+route add -net 100.20.0.0/14 reject
+route add -net 18.64.0.0/10 reject
+route add -net 18.128.0.0/9 reject
+route add -net 18.32.0.0/11 reject
+route add -net 184.72.0.0/15 reject
+route add -net 23.20.0.0/14 reject
+route add -net 3.128.0.0/9 reject
+route add -net 34.192.0.0/10 reject
+route add -net 44.192.0.0 netmask 255.192.0.0 reject
+route add -net 50.16.0.0 netmask 255.252.0.0 reject
+route add -net 52.64.0.0 netmask 255.240.0.0 reject
+route add -net 52.0.0.0 netmask 255.192.0.0 reject
+route add -net 52.223.128.0/18 reject
+route add -net 52.216.0.0/14 reject
+route add -net 52.220.0.0/15 reject
+route add -net 52.222.0.0/16 reject
+route add -net 52.192.0.0/12 reject
+route add -net 52.223.0.0/17 reject
+route add -net 54.220.0.0/15 reject
+route add -net 54.160.0.0/11 reject
+route add -net 54.192.0.0/12 reject
+route add -net 54.216.0.0/14 reject
+route add -net 54.208.0.0/13 reject
+route add -net 54.144.0.0/12 reject
+route add -net 54.64.0.0/11 reject
+route add -net 98.80.0.0/12 reject

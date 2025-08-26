@@ -6,12 +6,26 @@ use App\Models\Product;
 use App\Services\StockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
-    public function Index() {
+    public function Index(Request $request) {
+
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+            'sort' => ['nullable', Rule::in(['name', 'quantity'])],
+            'order' => ['nullable', Rule::in(['asc', 'desc'])],
+            'per_page' => ['nullable', 'integer', 'min:1', 'max:200'],
+        ]);
+
+        $search = $validated['search'] ?? null;
+        $sort = $validated['sort'] ?? 'name';
+        $order = $validated['order'] ?? 'asc';
+        $perPage = $validated['per_page'] ?? 2;
+        
         $title = '상품목록';
-        $products = Product::searchKeyword();
+        $products = Product::searchKeyword($search, $sort, $order, $perPage);
         return view('product.list', compact('title', 'products'));
     }
     public function Input() {

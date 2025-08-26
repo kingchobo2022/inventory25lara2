@@ -10,10 +10,18 @@ class Product extends Model
 
     protected $guarded = []; 
 
-    static public function searchKeyword()
+    static public function searchKeyword($search = null, $sort = 'name', $order = 'asc', $perPage = 2)
     {
-        $return = self::select('id', 'name', 'sku', 'price', 'quantity', 'created_at');
-        return $return->paginate(1);
+        $query = self::select('id', 'name', 'sku', 'price', 'quantity', 'created_at');
+        if(!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('sku', 'like', "%{$search}%");
+            });
+        }
+        $query->orderBy($sort, $order);
+
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function stockLogs()

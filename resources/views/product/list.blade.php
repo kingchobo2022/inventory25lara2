@@ -13,18 +13,18 @@
 
     <form class="row g-3 mb-3" method="get">
         <div class="col-md-4">
-            <input type="text" name="search" class="form-control" placeholder="상품명 또는 SKU 검색" value="">
+            <input type="text" name="search" class="form-control" placeholder="상품명 또는 SKU 검색" value="{{ request('search') }}">
         </div>
         <div class="col-md-3">
             <select name="sort" class="form-select">
-                <option value="name">상품명</option>
-                <option value="quantity">수량</option>
+                <option value="name" {{ request('sort', 'name') === 'name' ? 'selected' : '' }}>상품명</option>
+                <option value="quantity" {{ request('sort')  === 'quantity' ? 'selected' : '' }}>수량</option>
             </select>
         </div>
         <div class="col-md-3">
             <select name="order" class="form-select">
-                <option value="asc">오름차순</option>
-                <option value="desc">내림차순</option>
+                <option value="asc" {{ request('order', 'asc') === 'asc' ? 'selected' : '' }}>오름차순</option>
+                <option value="desc" {{ request('order') === 'desc' ? 'selected' : '' }}>내림차순</option>
             </select>
         </div>
         <div class="col-md-2">

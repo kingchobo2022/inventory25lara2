@@ -9,6 +9,17 @@ use Illuminate\Http\Request;
 
 class StockLogController extends Controller
 {
+    public function Index(Request $request)
+    {
+        $perPage = (int) $request->input('per_page', 3);
+        $title = '입출고 이력';
+        // Eager Loading 을 통해서 N + 1 문제을 해결
+        $logs = StockLog::with(['product:id,name,sku'])
+            ->latestFirst()
+            ->paginate($perPage);
+        return view('stock_log.list', compact('title', 'logs'));
+    }
+
     public function Input(Request $request, $id)
     {
         // queryString action 의 default value 는 in 으로 한다.

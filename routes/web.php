@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function() {
 
     Route::get('/stock/input/{id}', [StockLogController::class, 'Input'])->name('stock.input');
     Route::post('/stock/input/{id}', [StockLogController::class, 'Store'])->name('stock.store');
+    Route::get('/stock', [StockLogController::class, 'Index'])->name('stock.list');
 });
 
 
