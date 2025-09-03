@@ -15,7 +15,7 @@ class StockLogController extends Controller
         $title = '입출고 이력';
         // Eager Loading 을 통해서 N + 1 문제을 해결
         $logs = StockLog::with(['product:id,name,sku'])
-            ->latestFirst()
+            ->latestFirst()  
             ->paginate($perPage);
         return view('stock_log.list', compact('title', 'logs'));
     }

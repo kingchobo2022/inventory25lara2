@@ -6,7 +6,7 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('product') }}">상품</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('product.input') }}">상품 추가</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('stock.list') }}">입출고 이력</a></li>
-        <li class="nav-item"><a class="nav-link" href="stats.php">통계</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('stats') }}">통계</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">로그아웃</a></li>
       </ul>
     </div>

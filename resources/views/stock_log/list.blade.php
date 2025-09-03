@@ -22,8 +22,8 @@
 				<tr>
 					<td>{{ $log->created_at->format('Y-m-d H:i') }}</td>
 					<td>{{ ($log->product?->name ?? '삭제된 상품') }} ({{ ($log->product?->sku ?? '-')  }})</td>
-					<td>{{ $log->change_type }}</td>
-					<td>{{ $log->change_amount }}</td>
+					<td>{{ $log->change_type_label }}</td>
+					<td>{{ $log->signed_amount }}</td>
 				</tr>
                 @endforeach
             </tbody>
