@@ -12,7 +12,7 @@
     @endif
 
     <form class="row g-3 mb-3" method="get">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <input type="text" name="search" class="form-control" placeholder="상품명 또는 SKU 검색" value="{{ request('search') }}">
         </div>
         <div class="col-md-3">
@@ -27,8 +27,11 @@
                 <option value="desc" {{ request('order') === 'desc' ? 'selected' : '' }}>내림차순</option>
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <button class="btn btn-outline-secondary w-100">검색</button>
+        </div>
+        <div class="col-md-2">
+            <a href="{{ route('products.export') }}" class="btn btn-outline-primary w-100">검색</a>
         </div>
 
     </form>
